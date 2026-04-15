@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ABS PROGRAM — Mohammad</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#0a0a0a;color:#fff;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden;padding-bottom:70px}
+  button{cursor:pointer;font-family:'Courier New',monospace;border:none;outline:none}
+  input{font-family:'Courier New',monospace;outline:none}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#222}
+
+  /* NAV */
+  .nav{position:fixed;bottom:0;left:0;right:0;background:#0d0d0d;border-top:1px solid #1a1a1a;display:flex;z-index:100}
+  .nav-btn{flex:1;padding:10px 4px 8px;background:none;color:#333;font-size:9px;letter-spacing:1px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
+  .nav-btn.active{color:#00FF87}
+  .nav-icon{font-size:18px}
+
+  /* VIEWS */
+  .view{display:none;padding:0 16px 20px;animation:fadeIn .2s ease}
+  .view.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+  /* HEADER */
+  .header{border-bottom:1px solid #1a1a1a;padding:20px 16px 16px;position:sticky;top:0;background:#0a0a0a;z-index:50}
+  .header-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .header-label{font-size:10px;letter-spacing:4px;color:#444;text-transform:uppercase}
+  .header-title{font-size:clamp(20px,5vw,28px);font-weight:900;letter-spacing:-1px;color:#00FF87}
+
+  /* CARDS */
+  .card{background:#0d0d0d;border:1px solid #141414;padding:14px 16px;margin-bottom:10px}
+  .card-title{font-size:9px;letter-spacing:3px;color:#444;text-transform:uppercase;margin-bottom:8px}
+
+  /* STREAK TILES */
+  .streak-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+  .streak-tile{background:#0d0d0d;border:1px solid #141414;padding:16px 12px;text-align:center}
+  .streak-num{font-size:36px;font-weight:900;color:#00FF87;line-height:1}
+  .streak-num.morning{color:#FFD93D}
+  .streak-label{font-size:9px;color:#444;letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+
+  /* MORNING BTN */
+  .morning-btn{width:100%;padding:18px;background:#111;border:2px solid #FFD93D;color:#FFD93D;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;position:relative;overflow:hidden;transition:all .3s;margin:12px 0}
+  .morning-btn.done{background:#FFD93D20;border-color:#FFD93D;color:#FFD93D}
+  .morning-btn.done::after{content:"✓ LOGGED";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:10px;opacity:.7}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 #FFD93D40}50%{box-shadow:0 0 0 12px #FFD93D00}}
+  .morning-btn:not(.done){animation:pulse 2s infinite}
+
+  /* MOTIVATION */
+  .motivation{padding:12px 14px;background:#00FF8708;border-left:3px solid #00FF87;margin:12px 0}
+  .motivation-text{font-size:12px;color:#00FF87;letter-spacing:.5px;line-height:1.6;font-style:italic}
+
+  /* EXERCISE LIST */
+  .ex-item{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:10px;padding:14px 14px;background:#0d0d0d;border:1px solid #141414;border-left:3px solid #1e1e1e;margin-bottom:6px;transition:border-color .2s}
+  .ex-item.checked{border-left-color:#00FF87;background:#00FF8705}
+  .ex-check{width:22px;height:22px;border:1px solid #333;background:none;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s;flex-shrink:0}
+  .ex-check.done{border-color:#00FF87;background:#00FF87;color:#000}
+  .ex-name{font-size:13px;font-weight:700;letter-spacing:.3px}
+  .ex-note{font-size:9px;color:#444;letter-spacing:1px;margin-top:2px}
+  .ex-reps{text-align:right}
+  .ex-reps-num{font-size:14px;color:#00FF87;font-weight:900}
+  .ex-reps-label{font-size:9px;color:#333;letter-spacing:1px}
+  .reps-input{background:#111;border:1px solid #00FF87;color:#00FF87;padding:4px 8px;font-size:12px;width:60px;text-align:center;margin-top:4px}
+
+  /* PROGRESS BAR */
+  .progress-bar{height:4px;background:#111;margin:8px 0;border-radius:0}
+  .progress-fill{height:100%;background:#00FF87;transition:width .4s ease;border-radius:0}
+  .progress-fill.yellow{background:#FFD93D}
+
+  /* COMPLETE BTN */
+  .complete-btn{width:100%;padding:18px;background:#00FF87;color:#000;font-size:14px;font-weight:900;letter-spacing:3px;text-transform:uppercase;margin-top:16px;transition:all .2s}
+  .complete-btn:disabled{background:#1a1a1a;color:#333;cursor:not-allowed}
+  .complete-btn:not(:disabled):active{transform:scale(.98)}
+
+  /* CELEBRATION OVERLAY */
+  .overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0aee;z-index:200;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:32px}
+  .overlay.show{display:flex;animation:fadeIn .3s ease}
+  .overlay-emoji{font-size:72px;margin-bottom:16px;animation:bounce .5s ease infinite alternate}
+  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+  .overlay-title{font-size:clamp(28px,7vw,42px);font-weight:900;color:#00FF87;letter-spacing:-1px;margin-bottom:8px}
+  .overlay-sub{font-size:13px;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;line-height:1.8}
+  .overlay-close{padding:16px 40px;background:#00FF87;color:#000;font-size:13px;font-weight:900;letter-spacing:3px;text-transform:uppercase}
+
+  /* WEEK GRID */
+  .week-grid{display:flex;gap:5px;overflow-x:auto;padding-bottom:4px;margin:12px 0}
+  .week-day{flex:0 0 auto;width:46px;padding:10px 4px;text-align:center;border:1px solid #141414;background:#0d0d0d;position:relative}
+  .week-day.workout-done{border-color:#00FF87;background:#00FF8710}
+  .week-day.rest-day{opacity:.4}
+  .week-day.today{border-color:#FFD93D}
+  .week-day-label{font-size:10px;font-weight:900;letter-spacing:1px;color:#555}
+  .week-day.workout-done .week-day-label{color:#00FF87}
+  .week-day.today .week-day-label{color:#FFD93D}
+  .week-day-status{font-size:16px;margin-top:4px}
+
+  /* PHASE TRACKER */
+  .phase-grid{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+  .phase-item{flex:1 1 calc(25% - 6px);min-width:70px;padding:10px 8px;background:#111;border:1px solid #1e1e1e;text-align:left;transition:all .2s}
+  .phase-item.active{background:#00FF8715;border-color:#00FF87}
+  .phase-range{font-size:8px;letter-spacing:2px;color:#444;text-transform:uppercase;margin-bottom:3px}
+  .phase-name{font-size:12px;font-weight:700}
+  .phase-bars{display:flex;gap:2px;margin-top:6px}
+  .phase-bar{height:3px;flex:1;background:#1e1e1e}
+  .phase-bar.filled{background:#00FF87}
+  .phase-item.active .phase-bar.filled{background:#00FF87}
+
+  /* LOG HISTORY */
+  .log-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d0d0d;border:1px solid #141414;margin-bottom:4px}
+  .log-date{font-size:11px;color:#00FF87;letter-spacing:1px}
+  .log-type{font-size:9px;color:#444;letter-spacing:2px;text-transform:uppercase}
+
+  /* TOAST */
+  .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:#00FF87;color:#000;padding:10px 20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;z-index:300;transition:transform .3s ease}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  /* MISC */
+  .section-label{font-size:9px;letter-spacing:3px;color:#444;text-transform:uppercase;margin:20px 0 10px}
+  .tag{font-size:9px;color:#444;letter-spacing:2px;text-transform:uppercase;border:1px solid #1e1e1e;padding:3px 8px;display:inline-block}
+  .divider{height:1px;background:#141414;margin:16px 0}
+  .rest-card{padding:40px 20px;background:#0d0d0d;border:1px solid #141414;text-align:center}
+  .rest-icon{font-size:40px;margin-bottom:10px}
+  .rest-msg{color:#2a2a2a;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+  .reset-btn{padding:10px 20px;background:none;border:1px solid #FF6B6B;color:#FF6B6B;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:16px}
+  .tip-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:#0d0d0d;border:1px solid #141414;margin-bottom:6px}
+  .tip-icon{font-size:20px;flex-shrink:0}
+  .tip-title{font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:3px}
+  .tip-body{font-size:10px;color:#555;line-height:1.6}
+  .ex-expandable{cursor:pointer}
+  .ex-expand-content{display:none;padding:10px 14px 14px;background:#0d0d0d;border:1px solid #141414;border-top:none;margin-bottom:6px}
+  .ex-expand-content.open{display:block}
+  .ex-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f0f0f;font-size:11px}
+  .ex-row:last-child{border-bottom:none}
+  .ex-row-label{color:#444}
+  .ex-row-val{color:#00FF87;font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- CELEBRATION OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-emoji" id="overlayEmoji">💪</div>
+  <div class="overlay-title" id="overlayTitle">DAY DONE.</div>
+  <div class="overlay-sub" id="overlaySub">ABS ARE GROWING.<br>REST. EAT. SLEEP.</div>
+  <button class="overlay-close" onclick="closeOverlay()">KEEP GOING →</button>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <span class="header-label">8-Week</span>
+    <h1 class="header-title">ABS PROGRAM</h1>
+    <span class="header-label">Home Edition</span>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap" id="headerTags"></div>
+</div>
+
+<!-- HOME VIEW -->
+<div class="view active" id="view-home">
+  <div class="section-label">Today</div>
+  <div id="todayStatusCard"></div>
+
+  <button class="morning-btn" id="morningBtn" onclick="logMorning()">
+    🌅 DID YOU WAKE UP BY 9AM?
+  </button>
+
+  <div class="motivation" id="motivationBox">
+    <div class="motivation-text" id="motivationText"></div>
+  </div>
+
+  <div class="streak-grid">
+    <div class="streak-tile">
+      <div class="streak-num" id="workoutStreakNum">0</div>
+      <div class="streak-label">Workout Streak 🔥</div>
+    </div>
+    <div class="streak-tile">
+      <div class="streak-num morning" id="morningStreakNum">0</div>
+      <div class="streak-label">9AM Streak 🌅</div>
+    </div>
+  </div>
+
+  <div class="section-label">Program Progress</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+      <span style="font-size:11px;color:#555" id="progressLabel">Week 1 of 8</span>
+      <span style="font-size:11px;color:#00FF87" id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div style="font-size:9px;color:#333;margin-top:6px;letter-spacing:2px" id="progressPhase">FOUNDATION PHASE</div>
+  </div>
+</div>
+
+<!-- TODAY VIEW -->
+<div class="view" id="view-today">
+  <div class="section-label" id="todayDayLabel">Today's Workout</div>
+  <div id="todayExercises"></div>
+  <button class="complete-btn" id="completeDayBtn" disabled onclick="completeDay()">MARK DAY COMPLETE</button>
+</div>
+
+<!-- WEEK VIEW -->
+<div class="view" id="view-week">
+  <div class="section-label">This Week</div>
+  <div class="week-grid" id="weekGrid"></div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+    <span style="font-size:10px;color:#555">Weekly Completion</span>
+    <span style="font-size:10px;color:#00FF87" id="weekPctLabel">0%</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="weekProgressFill" style="width:0%"></div></div>
+
+  <div class="section-label" style="margin-top:20px">Schedule Details</div>
+  <div id="weekSchedule"></div>
+</div>
+
+<!-- STATS VIEW -->
+<div class="view" id="view-stats">
+  <div class="section-label">All Time</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+    <div class="card" style="text-align:center;padding:16px 8px">
+      <div style="font-size:28px;font-weight:900;color:#00FF87" id="totalWorkouts">0</div>
+      <div style="font-size:8px;color:#444;letter-spacing:2px;margin-top:4px">WORKOUTS</div>
+    </div>
+    <div class="card" style="text-align:center;padding:16px 8px">
+      <div style="font-size:28px;font-weight:900;color:#FFD93D" id="bestStreakStat">0</div>
+      <div style="font-size:8px;color:#444;letter-spacing:2px;margin-top:4px">BEST STREAK</div>
+    </div>
+    <div class="card" style="text-align:center;padding:16px 8px">
+      <div style="font-size:28px;font-weight:900;color:#FF6B6B" id="totalMornings">0</div>
+      <div style="font-size:8px;color:#444;letter-spacing:2px;margin-top:4px">9AM DAYS</div>
+    </div>
+  </div>
+
+  <div class="section-label">8-Week Phases</div>
+  <div class="phase-grid" id="phaseGrid"></div>
+
+  <div class="section-label">Workout Log</div>
+  <div id="logHistory"></div>
+
+  <button class="reset-btn" onclick="confirmReset()">RESET ALL DATA</button>
+</div>
+
+<!-- PLAN VIEW -->
+<div class="view" id="view-plan">
+  <div class="section-label">Workout Days</div>
+  <div id="planDays"></div>
+
+  <div class="section-label">Non-Negotiables</div>
+  <div id="planTips"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav">
+  <button class="nav-btn active" onclick="switchView('home',this)">
+    <span class="nav-icon">⚡</span>HOME
+  </button>
+  <button class="nav-btn" onclick="switchView('today',this)">
+    <span class="nav-icon">🎯</span>TODAY
+  </button>
+  <button class="nav-btn" onclick="switchView('week',this)">
+    <span class="nav-icon">📅</span>WEEK
+  </button>
+  <button class="nav-btn" onclick="switchView('stats',this)">
+    <span class="nav-icon">📊</span>STATS
+  </button>
+  <button class="nav-btn" onclick="switchView('plan',this)">
+    <span class="nav-icon">📋</span>PLAN
+  </button>
+</nav>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PLAN = {
+  stats: { height: "163–165 cm", weight: "48 kg", age: 21, goal: "Visible Abs" },
+  phases: [
+    { range: "Week 1–2", label: "Foundation", intensity: 1 },
+    { range: "Week 3–4", label: "Build", intensity: 2 },
+    { range: "Week 5–6", label: "Overload", intensity: 3 },
+    { range: "Week 7–8", label: "Peak", intensity: 4 },
+  ],
+  schedule: [
+    { day: "MON", label: "Full Body + Abs", color: "#00FF87", isWorkout: true, exercises: [
+      { name: "Leg Raises", sets: 3, reps: "10", note: "Slow & controlled" },
+      { name: "Weighted Crunches", sets: 3, reps: "15", note: "Hold heavy object" },
+      { name: "Plank", sets: 3, reps: "30s", note: "Squeeze core hard" },
+      { name: "Push-ups", sets: 4, reps: "12", note: "Full range" },
+      { name: "Bodyweight Squats", sets: 3, reps: "20", note: "Engages core too" },
+    ]},
+    { day: "TUE", label: "Rest", color: "#FF6B6B", isWorkout: false, isRest: true },
+    { day: "WED", label: "Full Body + Abs", color: "#00FF87", isWorkout: true, exercises: [
+      { name: "Hanging Knee Raises", sets: 3, reps: "12", note: "Or door frame" },
+      { name: "Bicycle Crunches", sets: 3, reps: "20 each", note: "Slow tempo" },
+      { name: "Hollow Body Hold", sets: 3, reps: "25s", note: "Lower back flat" },
+      { name: "Pike Push-ups", sets: 3, reps: "10", note: "Shoulder + core" },
+      { name: "Glute Bridges", sets: 3, reps: "15", note: "Core stability" },
+    ]},
+    { day: "THU", label: "Rest", color: "#FF6B6B", isWorkout: false, isRest: true },
+    { day: "FRI", label: "Full Body + Abs", color: "#00FF87", isWorkout: true, exercises: [
+      { name: "Leg Raises", sets: 4, reps: "12", note: "Add weight if easy" },
+      { name: "Weighted Crunches", sets: 4, reps: "18", note: "Heavier than Mon" },
+      { name: "Plank + Hip Dips", sets: 3, reps: "20 dips", note: "Obliques" },
+      { name: "Superman Hold", sets: 3, reps: "10", note: "Lower back balance" },
+      { name: "Mountain Climbers", sets: 3, reps: "30s", note: "Fast tempo" },
+    ]},
+    { day: "SAT", label: "Active Rest", color: "#FFD93D", isWorkout: false, isActive: true },
+    { day: "SUN", label: "Rest", color: "#FF6B6B", isWorkout: false, isRest: true },
+  ],
+  tips: [
+    { icon: "🥩", title: "Hit 90–100g Protein", body: "Eggs, chicken, canned fish, Greek yogurt. Muscle can't grow without it." },
+    { icon: "📈", title: "Add Reps Every Week", body: "If leg raises feel easy, add 2 reps. Progressive overload is the only way muscles grow." },
+    { icon: "🍽️", title: "Don't Undereat", body: "You're 48kg — eat at maintenance or a slight surplus. Starving kills muscle gains." },
+    { icon: "💧", title: "Stay Hydrated", body: "2–3L of water daily. Dehydration kills performance and recovery." },
+    { icon: "😴", title: "Sleep 7–9 Hours", body: "Abs literally grow while you sleep. This is non-negotiable." },
+  ]
+};
+
+const MOTIVATIONS = [
+  { min: 0, max: 0, msg: "Day one is the hardest. Show up anyway." },
+  { min: 1, max: 2, msg: "You started. Most people never do. Keep that energy." },
+  { min: 3, max: 6, msg: "3 sessions in. You're building a habit. Don't break it." },
+  { min: 7, max: 13, msg: "One week strong. Your abs are already waking up. 🔥" },
+  { min: 14, max: 20, msg: "Two weeks consistent. This is becoming part of who you are." },
+  { min: 21, max: 27, msg: "21 days. Science says this is a habit now. You're locked in. 💪" },
+  { min: 28, max: 99, msg: "You're built different. Keep going until they can see it." },
+];
+
+// ============================================================
+// STORAGE
+// ============================================================
+function getState() {
+  try {
+    return JSON.parse(localStorage.getItem('absTracker') || '{}');
+  } catch(e) { return {}; }
+}
+function setState(s) { localStorage.setItem('absTracker', JSON.stringify(s)); }
+
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getTodayDayIndex() {
+  return new Date().getDay(); // 0=Sun,1=Mon,...,6=Sat
+}
+
+function planDayIndex() {
+  // Map JS day (0=Sun) to plan index (0=Mon)
+  const jsDay = getTodayDayIndex();
+  const map = {0:6, 1:0, 2:1, 3:2, 4:3, 5:4, 6:5};
+  return map[jsDay];
+}
+
+function getWorkoutStreak(state) {
+  const logs = state.workoutLogs || {};
+  let streak = 0;
+  const d = new Date();
+  // Check backwards up to 60 days
+  for (let i = 0; i < 60; i++) {
+    const dd = new Date(d);
+    dd.setDate(dd.getDate() - i);
+    const key = `${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;
+    const jsDay = dd.getDay();
+    const planIdx = {0:6,1:0,2:1,3:2,4:3,5:4,6:5}[jsDay];
+    const dayData = PLAN.schedule[planIdx];
+    if (!dayData.isWorkout) continue; // skip rest days
+    if (logs[key]) streak++;
+    else { if (i > 0) break; } // if today's workout not done yet, don't break on today
+  }
+  return streak;
+}
+
+function getMorningStreak(state) {
+  const logs = state.morningLogs || {};
+  let streak = 0;
+  const d = new Date();
+  for (let i = 0; i < 60; i++) {
+    const dd = new Date(d);
+    dd.setDate(dd.getDate() - i);
+    const key = `${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;
+    if (logs[key]) streak++;
+    else { if (i > 0) break; }
+  }
+  return streak;
+}
+
+function getBestStreak(state) {
+  return state.bestStreak || 0;
+}
+
+function getCurrentWeek(state) {
+  const startDate = state.startDate;
+  if (!startDate) return 1;
+  const days = Math.floor((Date.now() - new Date(startDate)) / 86400000);
+  return Math.min(8, Math.max(1, Math.floor(days / 7) + 1));
+}
+
+function getPhaseIndex(week) {
+  if (week <= 2) return 0;
+  if (week <= 4) return 1;
+  if (week <= 6) return 2;
+  return 3;
+}
+
+function getMotivation(streak) {
+  for (const m of MOTIVATIONS) {
+    if (streak >= m.min && streak <= m.max) return m.msg;
+  }
+  return MOTIVATIONS[MOTIVATIONS.length-1].msg;
+}
+
+function getWeekWorkoutDates() {
+  const d = new Date();
+  const jsDay = d.getDay(); // 0=Sun
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - (jsDay === 0 ? 6 : jsDay - 1));
+  return Array.from({length:7}, (_,i) => {
+    const dd = new Date(monday);
+    dd.setDate(monday.getDate() + i);
+    return `${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  const state = getState();
+  const today = todayKey();
+  const pIdx = planDayIndex();
+  const todayPlan = PLAN.schedule[pIdx];
+  const workoutStreak = getWorkoutStreak(state);
+  const morningStreak = getMorningStreak(state);
+  const currentWeek = getCurrentWeek(state);
+  const phaseIdx = getPhaseIndex(currentWeek);
+  const totalWorkouts = Object.keys(state.workoutLogs || {}).length;
+  const totalMornings = Object.keys(state.morningLogs || {}).length;
+  const morningDone = !!(state.morningLogs || {})[today];
+  const workoutDone = !!(state.workoutLogs || {})[today];
+
+  // Header tags
+  const tagsEl = document.getElementById('headerTags');
+  tagsEl.innerHTML = [PLAN.stats.height, PLAN.stats.weight, `Age ${PLAN.stats.age}`]
+    .map(t => `<span class="tag">${t}</span>`).join('');
+
+  // HOME
+  document.getElementById('workoutStreakNum').textContent = workoutStreak;
+  document.getElementById('morningStreakNum').textContent = morningStreak;
+  document.getElementById('motivationText').textContent = getMotivation(workoutStreak);
+
+  // Morning btn
+  const mBtn = document.getElementById('morningBtn');
+  if (morningDone) {
+    mBtn.classList.add('done');
+    mBtn.textContent = '🌅 9AM WAKE-UP LOGGED';
+  } else {
+    mBtn.classList.remove('done');
+    mBtn.innerHTML = '🌅 DID YOU WAKE UP BY 9AM?';
+  }
+
+  // Today status card
+  const todayCardEl = document.getElementById('todayStatusCard');
+  if (workoutDone) {
+    todayCardEl.innerHTML = `<div class="card" style="border-color:#00FF87;background:#00FF8708"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:24px">✅</span><div><div style="font-size:13px;font-weight:700;color:#00FF87">${todayPlan.day} — DONE</div><div style="font-size:10px;color:#444;letter-spacing:1px;margin-top:2px">WORKOUT LOGGED. GREAT WORK.</div></div></div></div>`;
+  } else if (todayPlan.isWorkout) {
+    todayCardEl.innerHTML = `<div class="card" style="border-color:#FFD93D;background:#FFD93D08"><div style="display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:700;color:#FFD93D">${todayPlan.day} — WORKOUT DAY</div><div style="font-size:10px;color:#444;letter-spacing:1px;margin-top:2px">${todayPlan.exercises.length} EXERCISES WAITING</div></div><button onclick="switchViewById('today')" style="padding:8px 14px;background:#FFD93D;color:#000;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer">START →</button></div></div>`;
+  } else {
+    todayCardEl.innerHTML = `<div class="card"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:24px">${todayPlan.isActive ? '🚶' : '😴'}</span><div><div style="font-size:13px;font-weight:700;color:#555">${todayPlan.day} — ${todayPlan.label.toUpperCase()}</div><div style="font-size:10px;color:#333;letter-spacing:1px;margin-top:2px">${todayPlan.isActive ? 'LIGHT WALK OR STRETCH' : 'FULL REST — LET IT GROW'}</div></div></div></div>`;
+  }
+
+  // Progress
+  const pct = Math.round(((currentWeek - 1) / 8) * 100);
+  document.getElementById('progressLabel').textContent = `Week ${currentWeek} of 8`;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+  document.getElementById('progressPhase').textContent = `${PLAN.phases[phaseIdx].label.toUpperCase()} PHASE`;
+
+  // TODAY VIEW
+  renderTodayView(state, today, pIdx, workoutDone);
+
+  // WEEK VIEW
+  renderWeekView(state);
+
+  // STATS VIEW
+  document.getElementById('totalWorkouts').textContent = totalWorkouts;
+  document.getElementById('bestStreakStat').textContent = state.bestStreak || 0;
+  document.getElementById('totalMornings').textContent = totalMornings;
+  renderPhaseGrid(phaseIdx);
+  renderLogHistory(state);
+
+  // PLAN VIEW
+  renderPlanView();
+}
+
+function renderTodayView(state, today, pIdx, workoutDone) {
+  const todayPlan = PLAN.schedule[pIdx];
+  const todayExEl = document.getElementById('todayExercises');
+  const completeBtnEl = document.getElementById('completeDayBtn');
+  const labelEl = document.getElementById('todayDayLabel');
+
+  labelEl.textContent = `${todayPlan.day} — ${todayPlan.label}`;
+
+  if (!todayPlan.isWorkout) {
+    todayExEl.innerHTML = `<div class="rest-card"><div class="rest-icon">${todayPlan.isActive ? '🚶' : '😴'}</div><div class="rest-msg">${todayPlan.isActive ? 'LIGHT WALK / STRETCH TODAY' : 'FULL REST — LET YOUR MUSCLES REPAIR'}</div></div>`;
+    completeBtnEl.style.display = 'none';
+    return;
+  }
+
+  if (workoutDone) {
+    todayExEl.innerHTML = `<div class="rest-card" style="background:#00FF8705;border-color:#00FF87"><div class="rest-icon">💪</div><div class="rest-msg" style="color:#00FF87">WORKOUT COMPLETE<br><span style="color:#333;font-size:10px;display:block;margin-top:8px">COME BACK TOMORROW</span></div></div>`;
+    completeBtnEl.style.display = 'none';
+    return;
+  }
+
+  completeBtnEl.style.display = 'block';
+  const checked = (state.todayChecked || {});
+  const allDone = todayPlan.exercises.every((_,i) => checked[i]);
+  completeBtnEl.disabled = !allDone;
+
+  // Progress bar
+  const doneCnt = Object.keys(checked).filter(k => checked[k]).length;
+  const pct = Math.round((doneCnt / todayPlan.exercises.length) * 100);
+
+  todayExEl.innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+      <span style="font-size:10px;color:#555">${doneCnt}/${todayPlan.exercises.length} done</span>
+      <span style="font-size:10px;color:#00FF87">${pct}%</span>
+    </div>
+    <div class="progress-bar" style="margin-bottom:14px"><div class="progress-fill" style="width:${pct}%"></div></div>
+    ${todayPlan.exercises.map((ex, i) => `
+      <div class="ex-item ${checked[i] ? 'checked' : ''}" onclick="toggleCheck(${i})">
+        <div class="ex-check ${checked[i] ? 'done' : ''}">${checked[i] ? '✓' : ''}</div>
+        <div>
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-note">${ex.note}</div>
+        </div>
+        <div class="ex-reps">
+          <div class="ex-reps-num">${ex.reps}</div>
+          <div class="ex-reps-label">${ex.sets} SETS</div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function renderWeekView(state) {
+  const weekDates = getWeekWorkoutDates();
+  const today = todayKey();
+  const logs = state.workoutLogs || {};
+
+  const gridEl = document.getElementById('weekGrid');
+  gridEl.innerHTML = PLAN.schedule.map((d, i) => {
+    const date = weekDates[i];
+    const isToday = date === today;
+    const isDone = logs[date] && d.isWorkout;
+    const isRest = !d.isWorkout;
+    let cls = 'week-day';
+    if (isDone) cls += ' workout-done';
+    if (isRest) cls += ' rest-day';
+    if (isToday) cls += ' today';
+    const status = isDone ? '✅' : (isRest ? (d.isActive ? '🚶' : '😴') : (isToday && d.isWorkout ? '⚡' : '○'));
+    return `<div class="${cls}">
+      <div class="week-day-label">${d.day}</div>
+      <div class="week-day-status">${status}</div>
+    </div>`;
+  }).join('');
+
+  const workoutDays = PLAN.schedule.filter(d => d.isWorkout).length;
+  const doneDays = weekDates.filter((date, i) => PLAN.schedule[i].isWorkout && logs[date]).length;
+  const pct = Math.round((doneDays / workoutDays) * 100);
+  document.getElementById('weekPctLabel').textContent = `${pct}%`;
+  document.getElementById('weekProgressFill').style.width = `${pct}%`;
+
+  const schedEl = document.getElementById('weekSchedule');
+  schedEl.innerHTML = PLAN.schedule.map((d, i) => {
+    const date = weekDates[i];
+    const isToday = date === today;
+    const isDone = logs[date] && d.isWorkout;
+    const dd = new Date(date);
+    const dateStr = dd.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    return `<div class="log-item" style="${isToday ? 'border-color:#FFD93D' : ''}">
+      <div>
+        <div class="log-date">${d.day} ${isDone ? '✅' : ''}</div>
+        <div class="log-type">${d.label}</div>
+      </div>
+      <div style="font-size:10px;color:#333">${dateStr}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderPhaseGrid(currentPhaseIdx) {
+  document.getElementById('phaseGrid').innerHTML = PLAN.phases.map((p, i) => `
+    <div class="phase-item ${i === currentPhaseIdx ? 'active' : ''}">
+      <div class="phase-range">${p.range}</div>
+      <div class="phase-name">${p.label}</div>
+      <div class="phase-bars">
+        ${[1,2,3,4].map(n => `<div class="phase-bar ${n <= p.intensity ? 'filled' : ''}"></div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderLogHistory(state) {
+  const logs = state.workoutLogs || {};
+  const morningLogs = state.morningLogs || {};
+  const allDates = [...new Set([...Object.keys(logs), ...Object.keys(morningLogs)])].sort().reverse().slice(0, 30);
+
+  const el = document.getElementById('logHistory');
+  if (allDates.length === 0) {
+    el.innerHTML = '<div class="card" style="text-align:center;color:#333;font-size:11px;letter-spacing:2px">NO LOGS YET. START TODAY.</div>';
+    return;
+  }
+  el.innerHTML = allDates.map(date => {
+    const hasWorkout = logs[date];
+    const hasMorning = morningLogs[date];
+    const d = new Date(date + 'T00:00:00');
+    const dateStr = d.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+    return `<div class="log-item">
+      <div>
+        <div class="log-date">${dateStr}</div>
+        <div class="log-type">${[hasWorkout && '💪 WORKOUT', hasMorning && '🌅 9AM'].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div style="font-size:16px">${hasWorkout ? '✅' : ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderPlanView() {
+  const daysEl = document.getElementById('planDays');
+  const workoutDays = PLAN.schedule.filter(d => d.isWorkout);
+  daysEl.innerHTML = workoutDays.map((d, i) => `
+    <div class="card ex-expandable" onclick="toggleExpand('planDay${i}')">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:9px;letter-spacing:3px;color:#00FF87;margin-bottom:3px">${d.day}</div>
+          <div style="font-size:14px;font-weight:700">${d.label}</div>
+        </div>
+        <span style="color:#444;font-size:18px" id="arrow${i}">›</span>
+      </div>
+    </div>
+    <div class="ex-expand-content" id="planDay${i}">
+      ${d.exercises.map(ex => `
+        <div class="ex-row">
+          <span>${ex.name}</span>
+          <span class="ex-row-val">${ex.sets}×${ex.reps}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  document.getElementById('planTips').innerHTML = PLAN.tips.map(t => `
+    <div class="tip-item">
+      <span class="tip-icon">${t.icon}</span>
+      <div>
+        <div class="tip-title">${t.title}</div>
+        <div class="tip-body">${t.body}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function switchView(id, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`view-${id}`).classList.add('active');
+  if (btn) btn.classList.add('active');
+  render();
+}
+
+function switchViewById(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`view-${id}`).classList.add('active');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const ids = ['home','today','week','stats','plan'];
+  const idx = ids.indexOf(id);
+  if (idx >= 0) navBtns[idx].classList.add('active');
+  render();
+}
+
+function logMorning() {
+  const state = getState();
+  const today = todayKey();
+  if ((state.morningLogs || {})[today]) return;
+  if (!state.morningLogs) state.morningLogs = {};
+  state.morningLogs[today] = new Date().toISOString();
+  setState(state);
+  showToast('🌅 9AM LOGGED! GREAT START!');
+  render();
+}
+
+function toggleCheck(idx) {
+  const state = getState();
+  if (!state.todayChecked) state.todayChecked = {};
+  if (!state.todayCheckedDate) state.todayCheckedDate = '';
+  // Reset if new day
+  if (state.todayCheckedDate !== todayKey()) {
+    state.todayChecked = {};
+    state.todayCheckedDate = todayKey();
+  }
+  state.todayChecked[idx] = !state.todayChecked[idx];
+  setState(state);
+  renderTodayView(state, todayKey(), planDayIndex(), !!(state.workoutLogs || {})[todayKey()]);
+  // Update complete button
+  const pIdx = planDayIndex();
+  const todayPlan = PLAN.schedule[pIdx];
+  if (todayPlan.isWorkout) {
+    const allDone = todayPlan.exercises.every((_,i) => state.todayChecked[i]);
+    document.getElementById('completeDayBtn').disabled = !allDone;
+  }
+}
+
+function completeDay() {
+  const state = getState();
+  const today = todayKey();
+  if (!state.workoutLogs) state.workoutLogs = {};
+  if (!state.startDate) state.startDate = today;
+  state.workoutLogs[today] = new Date().toISOString();
+  state.todayChecked = {};
+
+  // Update streaks
+  const streak = getWorkoutStreak(state);
+  if (streak > (state.bestStreak || 0)) state.bestStreak = streak;
+
+  setState(state);
+
+  // Show celebration
+  const streakNow = getWorkoutStreak(state);
+  let emoji = '💪', title = 'DAY DONE.', sub = 'ABS ARE GROWING.\nREST. EAT. SLEEP.';
+  if (streakNow >= 21) { emoji = '🏆'; title = `${streakNow} DAYS.`; sub = "YOU'RE UNSTOPPABLE.\nFEW PEOPLE MAKE IT HERE."; }
+  else if (streakNow >= 14) { emoji = '🔥'; title = `${streakNow} DAYS STRAIGHT.`; sub = 'TWO WEEKS STRONG.\nYOUR BODY IS CHANGING.'; }
+  else if (streakNow >= 7) { emoji = '⚡'; title = 'ONE WEEK DONE.'; sub = 'YOU MADE IT 7 SESSIONS.\nDO SEVEN MORE.'; }
+
+  document.getElementById('overlayEmoji').textContent = emoji;
+  document.getElementById('overlayTitle').textContent = title;
+  document.getElementById('overlaySub').textContent = sub;
+  document.getElementById('overlay').classList.add('show');
+  render();
+}
+
+function closeOverlay() {
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function toggleExpand(id) {
+  const el = document.getElementById(id);
+  const idx = id.replace('planDay','');
+  el.classList.toggle('open');
+  const arrow = document.getElementById(`arrow${idx}`);
+  if (arrow) arrow.style.transform = el.classList.contains('open') ? 'rotate(90deg)' : '';
+}
+
+function confirmReset() {
+  if (confirm('Reset ALL workout data? This cannot be undone.')) {
+    localStorage.removeItem('absTracker');
+    showToast('DATA RESET.');
+    render();
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
