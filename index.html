@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ABS PROGRAM — Mohammad</title>
+<title>ABS PROGRAM â Mohammad</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:#f0f4f8;color:#1a1a2e;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:80px}
@@ -38,7 +38,7 @@ a{text-decoration:none}
 
 .morning-btn{width:100%;padding:18px;background:linear-gradient(135deg,#fff8ed,#fff3dc);border:2px solid #f97316;color:#ea580c;font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:14px;position:relative;overflow:hidden;transition:all .3s;margin:12px 0}
 .morning-btn.done{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:#22c55e;color:#16a34a}
-.morning-btn.done::after{content:"✓ LOGGED";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:11px;opacity:.8}
+.morning-btn.done::after{content:"â LOGGED";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:11px;opacity:.8}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,.4)}50%{box-shadow:0 0 0 12px rgba(249,115,22,0)}}
 .morning-btn:not(.done){animation:pulse 2s infinite}
 
@@ -147,12 +147,16 @@ a{text-decoration:none}
 .workout-day-arrow{font-size:20px;color:#d1d5db;transition:transform .2s}
 .workout-day-exs{display:none;margin-top:14px;border-top:1px solid #f0f0f0;padding-top:12px}
 .workout-day-exs.open{display:block}
-.ex-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f9fafb;font-size:12px}
+.ex-row{display:flex;justify-content:space-between;border-bottom:1px solid #f9fafb;padding:8px 0;font-size:12px}
 .ex-row:last-child{border-bottom:none}
 .ex-row-label{color:#374151;font-weight:600}
 .ex-row-val{color:#22c55e;font-weight:800}
 
 .reset-btn{padding:12px 24px;background:none;border:2px solid #fca5a5;color:#ef4444;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-radius:10px;margin-top:20px;font-weight:700}
+.anghami-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:linear-gradient(135deg,#ff6b35,#e91e8c);color:#fff;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;border-radius:12px;margin-top:10px;box-shadow:0 4px 14px rgba(233,30,140,.35);transition:opacity .2s}
+.anghami-btn:active{opacity:.85}
+.anghami-float{position:fixed;bottom:82px;right:16px;background:linear-gradient(135deg,#ff6b35,#e91e8c);color:#fff;border:none;border-radius:50px;padding:10px 16px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:6px;box-shadow:0 4px 16px rgba(233,30,140,.45);z-index:99;cursor:pointer;transition:transform .2s}
+.anghami-float:active{transform:scale(.95)}
 </style>
 </head>
 <body>
@@ -160,36 +164,43 @@ a{text-decoration:none}
 <div class="toast" id="toast"></div>
 
 <div class="overlay" id="overlay">
-  <div class="overlay-emoji" id="overlayEmoji">💪</div>
+  <div class="overlay-emoji" id="overlayEmoji">ðª</div>
   <div class="overlay-title" id="overlayTitle">DAY DONE.</div>
   <div class="overlay-sub" id="overlaySub">ABS ARE GROWING.
 REST. EAT. SLEEP.</div>
-  <button class="overlay-close" onclick="closeOverlay()">KEEP GOING →</button>
+  <button class="overlay-close" onclick="closeOverlay()">KEEP GOING â</button>
 </div>
 
 <div class="header">
   <div class="header-label">8-Week Home Edition</div>
   <h1 class="header-title">ABS PROGRAM</h1>
   <div class="header-tags">
-    <span class="header-tag">163–165cm</span>
+    <span class="header-tag">163â165cm</span>
     <span class="header-tag">48kg</span>
     <span class="header-tag">Age 21</span>
     <span class="header-tag">Visible Abs</span>
   </div>
+  <a href="https://open.anghami.com/K3TQgmiwm2b" target="_blank" class="anghami-btn" style="margin-top:14px">
+    ðµ WORKOUT PLAYLIST â ANGHAMI
+  </a>
 </div>
+
+<a href="https://open.anghami.com/K3TQgmiwm2b" target="_blank" class="anghami-float" id="anghamiFloat">
+  ðµ ANGHAMI
+</a>
 
 <!-- HOME -->
 <div class="view active" id="view-home">
   <div class="section-label">Today</div>
   <div id="todayStatusCard"></div>
-  <button class="morning-btn" id="morningBtn" onclick="logMorning()">🌅 DID YOU WAKE UP BY 9AM?</button>
+  <button class="morning-btn" id="morningBtn" onclick="logMorning()">ð DID YOU WAKE UP BY 9AM?</button>
   <div class="motivation" id="motivationBox">
     <div class="motivation-label">Daily Motivation</div>
     <div class="motivation-text" id="motivationText"></div>
   </div>
   <div class="streak-grid">
-    <div class="streak-tile"><div class="streak-num" id="workoutStreakNum">0</div><div class="streak-label">Workout Streak 🔥</div></div>
-    <div class="streak-tile"><div class="streak-num morning" id="morningStreakNum">0</div><div class="streak-label">9AM Streak 🌅</div></div>
+    <div class="streak-tile"><div class="streak-num" id="workoutStreakNum">0</div><div class="streak-label">Workout Streak ð¥</div></div>
+    <div class="streak-tile"><div class="streak-num morning" id="morningStreakNum">0</div><div class="streak-label">9AM Streak ð</div></div>
   </div>
   <div class="section-label">Program Progress</div>
   <div class="card">
@@ -205,8 +216,9 @@ REST. EAT. SLEEP.</div>
 <!-- TODAY -->
 <div class="view" id="view-today">
   <div class="section-label" id="todayDayLabel">Today's Workout</div>
+  <a href="https://open.anghami.com/K3TQgmiwm2b" target="_blank" class="anghami-btn" style="margin-bottom:12px">ðµ PLAY WORKOUT PLAYLIST</a>
   <div id="todayExercises"></div>
-  <button class="complete-btn" id="completeDayBtn" disabled onclick="completeDay()">MARK DAY COMPLETE ✓</button>
+  <button class="complete-btn" id="completeDayBtn" disabled onclick="completeDay()">MARK DAY COMPLETE â</button>
 </div>
 
 <!-- WEEK -->
@@ -248,24 +260,24 @@ REST. EAT. SLEEP.</div>
 </div>
 
 <nav class="nav">
-  <button class="nav-btn active" onclick="switchView('home',this)"><span class="nav-icon">⚡</span>HOME</button>
-  <button class="nav-btn" onclick="switchView('today',this)"><span class="nav-icon">🎯</span>TODAY</button>
-  <button class="nav-btn" onclick="switchView('week',this)"><span class="nav-icon">📅</span>WEEK</button>
-  <button class="nav-btn" onclick="switchView('dailyplan',this)"><span class="nav-icon">🍽️</span>PLAN</button>
-  <button class="nav-btn" onclick="switchView('stats',this)"><span class="nav-icon">📊</span>STATS</button>
+  <button class="nav-btn active" onclick="switchView('home',this)"><span class="nav-icon">â¡</span>HOME</button>
+  <button class="nav-btn" onclick="switchView('today',this)"><span class="nav-icon">ð¯</span>TODAY</button>
+  <button class="nav-btn" onclick="switchView('week',this)"><span class="nav-icon">ð</span>WEEK</button>
+  <button class="nav-btn" onclick="switchView('dailyplan',this)"><span class="nav-icon">ð½ï¸</span>PLAN</button>
+  <button class="nav-btn" onclick="switchView('stats',this)"><span class="nav-icon">ð</span>STATS</button>
 </nav>
 
 <script>
 const PLAN = {
   phases:[
-    {range:"Week 1–2",label:"Foundation",intensity:1},
-    {range:"Week 3–4",label:"Build",intensity:2},
-    {range:"Week 5–6",label:"Overload",intensity:3},
-    {range:"Week 7–8",label:"Peak",intensity:4},
+    {range:"Week 1â2",label:"Foundation",intensity:1},
+    {range:"Week 3â4",label:"Build",intensity:2},
+    {range:"Week 5â6",label:"Overload",intensity:3},
+    {range:"Week 7â8",label:"Peak",intensity:4},
   ],
   schedule:[
     {day:"MON",label:"Full Body + Abs",isWorkout:true,exercises:[
-      {name:"Leg Raises",sets:3,reps:"10",note:"Slow & controlled — lower abs",demo:"https://www.youtube.com/results?search_query=leg+raises+abs+exercise",img:"https://img.youtube.com/vi/l4KalR5p4k8/mqdefault.jpg"},
+      {name:"Leg Raises",sets:3,reps:"10",note:"Slow & controlled â lower abs",demo:"https://www.youtube.com/results?search_query=leg+raises+abs+exercise",img:"https://img.youtube.com/vi/l4KalR5p4k8/mqdefault.jpg"},
       {name:"Weighted Crunches",sets:3,reps:"15",note:"Hold a heavy object on chest",demo:"https://www.youtube.com/results?search_query=weighted+crunches+exercise",img:"https://img.youtube.com/vi/Qg_gJBgYl8s/mqdefault.jpg"},
       {name:"Plank",sets:3,reps:"30s",note:"Squeeze core hard, don't sag",demo:"https://www.youtube.com/results?search_query=plank+proper+form+tutorial",img:"https://img.youtube.com/vi/pSHjTRCQxIw/mqdefault.jpg"},
       {name:"Push-ups",sets:4,reps:"12",note:"Full range of motion",demo:"https://www.youtube.com/results?search_query=push+up+proper+form",img:"https://img.youtube.com/vi/IODxDxX7oi4/mqdefault.jpg"},
@@ -273,36 +285,54 @@ const PLAN = {
     ]},
     {day:"TUE",label:"Rest",isWorkout:false,isRest:true},
     {day:"WED",label:"Full Body + Abs",isWorkout:true,exercises:[
-      {name:"Reverse Crunches",sets:3,reps:"12",note:"Lower abs — curl hips up",demo:"https://www.youtube.com/results?search_query=reverse+crunch+abs+tutorial",img:"https://img.youtube.com/vi/pXBRFQeFG7U/mqdefault.jpg"},
+      {name:"Reverse Crunches",sets:3,reps:"12",note:"Lower abs â curl hips up",demo:"https://www.youtube.com/results?search_query=reverse+crunch+abs+tutorial",img:"https://img.youtube.com/vi/pXBRFQeFG7U/mqdefault.jpg"},
       {name:"Bicycle Crunches",sets:3,reps:"20 each",note:"Slow tempo, full rotation",demo:"https://www.youtube.com/results?search_query=bicycle+crunches+proper+form",img:"https://img.youtube.com/vi/9FGilxCbdz8/mqdefault.jpg"},
       {name:"Hollow Body Hold",sets:3,reps:"25s",note:"Lower back flat on floor",demo:"https://www.youtube.com/results?search_query=hollow+body+hold+tutorial",img:"https://img.youtube.com/vi/LlDNef_Ztsc/mqdefault.jpg"},
-      {name:"Pike Push-ups",sets:3,reps:"10",note:"Shoulders + core — hips high",demo:"https://www.youtube.com/results?search_query=pike+push+up+tutorial",img:"https://img.youtube.com/vi/sposDXWEB0A/mqdefault.jpg"},
-      {name:"Glute Bridges",sets:3,reps:"15",note:"Core stability — squeeze at top",demo:"https://www.youtube.com/results?search_query=glute+bridge+exercise",img:"https://img.youtube.com/vi/wPM8icPu6H8/mqdefault.jpg"},
+      {name:"Pike Push-ups",sets:3,reps:"10",note:"Shoulders + core â hips high",demo:"https://www.youtube.com/results?search_query=pike+push+up+tutorial",img:"https://img.youtube.com/vi/sposDXWEB0A/mqdefault.jpg"},
+      {name:"Glute Bridges",sets:3,reps:"15",note:"Core stability â squeeze at top",demo:"https://www.youtube.com/results?search_query=glute+bridge+exercise",img:"https://img.youtube.com/vi/wPM8icPu6H8/mqdefault.jpg"},
     ]},
-    {day:"THU",label:"Rest",isWorkout:false,isRest:true},
+    {day:"THU",label:"Core Burn",isWorkout:true,exercises:[
+      {name:"Mountain Climbers",sets:3,reps:"20 each",note:"Drive knees fast â cardio + core",demo:"https://www.youtube.com/results?search_query=mountain+climbers+abs+exercise",img:"https://img.youtube.com/vi/nmwgirgXLYM/mqdefault.jpg"},
+      {name:"Russian Twists",sets:3,reps:"20 each",note:"Hold object for weight â obliques",demo:"https://www.youtube.com/results?search_query=russian+twist+abs+exercise",img:"https://img.youtube.com/vi/wkD8rjkodUI/mqdefault.jpg"},
+      {name:"V-Ups",sets:3,reps:"10",note:"Full range â lower + upper abs together",demo:"https://www.youtube.com/results?search_query=v+ups+abs+exercise",img:"https://img.youtube.com/vi/iP2fjvG0g3w/mqdefault.jpg"},
+      {name:"Flutter Kicks",sets:3,reps:"30s",note:"Keep lower back pressed flat",demo:"https://www.youtube.com/results?search_query=flutter+kicks+abs+exercise",img:"https://img.youtube.com/vi/ANVdKFyl9Ng/mqdefault.jpg"},
+      {name:"Side Plank",sets:3,reps:"20s each",note:"Obliques + stability â hips up",demo:"https://www.youtube.com/results?search_query=side+plank+proper+form",img:"https://img.youtube.com/vi/K2eqnJqY6Hs/mqdefault.jpg"},
+    ]},
     {day:"FRI",label:"Rest",isWorkout:false,isRest:true},
-    {day:"SAT",label:"Active Rest",isWorkout:false,isActive:true},
-    {day:"SUN",label:"Rest",isWorkout:false,isRest:true},
+    {day:"SAT",label:"Full Body Power",isWorkout:true,exercises:[
+      {name:"Jump Squats",sets:3,reps:"15",note:"Explosive power â land soft",demo:"https://www.youtube.com/results?search_query=jump+squat+exercise",img:"https://img.youtube.com/vi/CVaEhXotL7M/mqdefault.jpg"},
+      {name:"Decline Push-ups",sets:3,reps:"12",note:"Feet elevated â upper chest + core",demo:"https://www.youtube.com/results?search_query=decline+push+up+exercise",img:"https://img.youtube.com/vi/SKPab2YC8BE/mqdefault.jpg"},
+      {name:"Toe Touches",sets:3,reps:"15",note:"Upper abs â reach straight up",demo:"https://www.youtube.com/results?search_query=toe+touch+crunch+abs",img:"https://img.youtube.com/vi/3jBH0BV_b8c/mqdefault.jpg"},
+      {name:"Superman Hold",sets:3,reps:"12",note:"Lower back balance â hold 2s at top",demo:"https://www.youtube.com/results?search_query=superman+hold+exercise",img:"https://img.youtube.com/vi/z6PJMT2y8GQ/mqdefault.jpg"},
+      {name:"Burpees",sets:3,reps:"8",note:"Full body metabolic â push through it",demo:"https://www.youtube.com/results?search_query=burpee+exercise+proper+form",img:"https://img.youtube.com/vi/auBLPXO8Fww/mqdefault.jpg"},
+    ]},
+    {day:"SUN",label:"Active Core",isWorkout:true,exercises:[
+      {name:"Dead Bug",sets:3,reps:"10 each",note:"Slow + controlled â deep core activation",demo:"https://www.youtube.com/results?search_query=dead+bug+exercise+core",img:"https://img.youtube.com/vi/4XLEnwUr1d8/mqdefault.jpg"},
+      {name:"Inchworm Walk",sets:3,reps:"8",note:"Core + hamstrings â slow and precise",demo:"https://www.youtube.com/results?search_query=inchworm+exercise+core",img:"https://img.youtube.com/vi/Vq5uesMfCeo/mqdefault.jpg"},
+      {name:"Plank",sets:3,reps:"40s",note:"Squeeze everything â longer hold than Mon",demo:"https://www.youtube.com/results?search_query=plank+proper+form+tutorial",img:"https://img.youtube.com/vi/pSHjTRCQxIw/mqdefault.jpg"},
+      {name:"Glute Bridge",sets:3,reps:"15",note:"Core stability â pause 2s at top",demo:"https://www.youtube.com/results?search_query=glute+bridge+exercise",img:"https://img.youtube.com/vi/wPM8icPu6H8/mqdefault.jpg"},
+      {name:"Bicycle Crunches",sets:3,reps:"16 each",note:"Slow tempo â full twist each rep",demo:"https://www.youtube.com/results?search_query=bicycle+crunches+proper+form",img:"https://img.youtube.com/vi/9FGilxCbdz8/mqdefault.jpg"},
+    ]},
   ],
   tips:[
-    {icon:"🥩",title:"Hit 90–100g Protein Daily",body:"Eggs, chicken, canned fish, Greek yogurt. Muscle literally cannot grow without adequate protein."},
-    {icon:"📈",title:"Progressive Overload",body:"Add 2 reps or hold a second longer every week. This is the only way muscles keep growing."},
-    {icon:"🍽️",title:"Don't Undereat",body:"You're 48kg — eat at maintenance or a slight surplus. Serious Mass + creatine are your best friends right now."},
-    {icon:"💧",title:"2–3L Water Daily",body:"Dehydration kills performance, recovery, and energy. Drink a glass the moment you wake up."},
-    {icon:"😴",title:"Sleep 7–9 Hours",body:"Abs grow while you sleep. Non-negotiable. Your creatine and protein are wasted without proper sleep."},
+    {icon:"ð¥©",title:"Hit 90â100g Protein Daily",body:"Eggs, chicken, canned fish, Greek yogurt. Muscle literally cannot grow without adequate protein."},
+    {icon:"ð",title:"Progressive Overload",body:"Add 2 reps or hold a second longer every week. This is the only way muscles keep growing."},
+    {icon:"ð½ï¸",title:"Don't Undereat",body:"You're 48kg â eat at maintenance or a slight surplus. Serious Mass + creatine are your best friends right now."},
+    {icon:"ð§",title:"2â3L Water Daily",body:"Dehydration kills performance, recovery, and energy. Drink a glass the moment you wake up."},
+    {icon:"ð´",title:"Sleep 7â9 Hours",body:"Abs grow while you sleep. Non-negotiable. Your creatine and protein are wasted without proper sleep."},
   ]
 };
 
 const DAILY_PLAN=[
-  {time:"9:00 AM",emoji:"🌅",title:"Wake Up",detail:"Drink a full glass of water immediately",type:"morning"},
-  {time:"9:30 AM",emoji:"🍳",title:"Breakfast",detail:"Eggs / oats / bread / milk",note:"💊 Take WITH breakfast: Multivitamin + Fish Oil + Zinc",type:"food"},
-  {time:"11:30 AM",emoji:"🥤",title:"Mass Shake",detail:"Serious Mass — ½ serving",type:"shake"},
-  {time:"2:30 PM",emoji:"🍽️",title:"Lunch",detail:"Rice + chicken / meat",type:"food"},
-  {time:"5:00 PM",emoji:"🍌",title:"Pre-Workout Snack",detail:"Banana or toast — fuel before training",type:"food"},
-  {time:"5:30 PM",emoji:"💪",title:"WORKOUT",detail:"Go hard. Every rep, every set. This is the work.",type:"workout"},
-  {time:"6:30 PM",emoji:"🥤",title:"Post-Workout (MOST IMPORTANT)",detail:"Serious Mass (½ serving) + Creatine (5g)",note:"👉 Mix together and drink immediately after training",type:"shake"},
-  {time:"8:30 PM",emoji:"🍽️",title:"Dinner",detail:"Rice + protein source",type:"food"},
-  {time:"11:30 PM",emoji:"🌙",title:"Optional Night Snack",detail:"Milk or peanut butter sandwich — slow protein for overnight recovery",type:"night"},
+  {time:"9:00 AM",emoji:"ð",title:"Wake Up",detail:"Drink a full glass of water immediately",type:"morning"},
+  {time:"9:30 AM",emoji:"ð³",title:"Breakfast",detail:"Eggs / oats / bread / milk",note:"ð Take WITH breakfast: Multivitamin + Fish Oil + Zinc",type:"food"},
+  {time:"11:30 AM",emoji:"ð¥¤",title:"Mass Shake",detail:"Serious Mass â Â½ serving",type:"shake"},
+  {time:"2:30 PM",emoji:"ð½ï¸",title:"Lunch",detail:"Rice + chicken / meat",type:"food"},
+  {time:"5:00 PM",emoji:"ð",title:"Pre-Workout Snack",detail:"Banana or toast â fuel before training",type:"food"},
+  {time:"5:30 PM",emoji:"ðª",title:"WORKOUT",detail:"Go hard. Every rep, every set. This is the work.",type:"workout"},
+  {time:"6:30 PM",emoji:"ð¥¤",title:"Post-Workout (MOST IMPORTANT)",detail:"Serious Mass (Â½ serving) + Creatine (5g)",note:"ð Mix together and drink immediately after training",type:"shake"},
+  {time:"8:30 PM",emoji:"ð½ï¸",title:"Dinner",detail:"Rice + protein source",type:"food"},
+  {time:"11:30 PM",emoji:"ð",title:"Optional Night Snack",detail:"Milk or peanut butter sandwich â slow protein for overnight recovery",type:"night"},
 ];
 
 const MOTIVATIONS=[
@@ -390,16 +420,16 @@ function render(){
   document.getElementById('motivationText').textContent=getMotivation();
 
   const mBtn=document.getElementById('morningBtn');
-  if(morningDone){mBtn.classList.add('done');mBtn.textContent='🌅 9AM WAKE-UP LOGGED';}
-  else{mBtn.classList.remove('done');mBtn.innerHTML='🌅 DID YOU WAKE UP BY 9AM?';}
+  if(morningDone){mBtn.classList.add('done');mBtn.textContent='ð 9AM WAKE-UP LOGGED';}
+  else{mBtn.classList.remove('done');mBtn.innerHTML='ð DID YOU WAKE UP BY 9AM?';}
 
   const sc=document.getElementById('todayStatusCard');
   if(workoutDone){
-    sc.innerHTML=`<div class="status-card" style="border-left:4px solid #22c55e;background:#f0fdf4"><span class="status-icon">✅</span><div><div class="status-title" style="color:#16a34a">${todayPlan.day} — DONE</div><div class="status-sub">WORKOUT LOGGED. GREAT WORK.</div></div></div>`;
+    sc.innerHTML<`<div class="status-card" style="border-left:4px solid #22c55e;background:#f0fdf4"><span class="status-icon">â</span><div><div class="status-title" style="color:#16a34a">${todayPlan.day} â DONE</div><div class="status-sub">WORKOUT LOGGED. GREAT WORK.</div></div></div>`;
   }else if(todayPlan.isWorkout){
-    sc.innerHTML=`<div class="status-card" style="border-left:4px solid #f97316;background:#fff8ed"><span class="status-icon">⚡</span><div><div class="status-title" style="color:#ea580c">${todayPlan.day} — WORKOUT DAY</div><div class="status-sub">${todayPlan.exercises.length} EXERCISES WAITING</div></div><button class="status-action" onclick="switchViewById('today')">START →</button></div>`;
+    sc.innerHTML=`<div class="status-card" style="border-left:4px solid #f97316;background:#fff8ed"><span class="status-icon">â¡</span><div><div class="status-title" style="color:#ea580c">${todayPlan.day} â WORKOUT DAY</div><div class="status-sub">${todayPlan.exercises.length} EXERCISES WAITING</div></div><button class="status-action" onclick="switchViewById('today')">START â</button></div>`;
   }else{
-    sc.innerHTML=`<div class="status-card"><span class="status-icon">${todayPlan.isActive?'🚶':'😴'}</span><div><div class="status-title">${todayPlan.day} — ${todayPlan.label.toUpperCase()}</div><div class="status-sub">${todayPlan.isActive?'LIGHT WALK OR STRETCH':'FULL REST — LET IT GROW'}</div></div></div>`;
+    sc.innerHTML<`<div class="status-card"><span class="status-icon">${todayPlan.isActive?'ð¶':'ð´'}</span><div><div class="status-title">${todayPlan.day} â ${todayPlan.label.toUpperCase()}</div><div class="status-sub">${todayPlan.isActive?'LIGHT WALK OR STRETCH':'FULL REST â LET IT GROW'}</div></div></div>`;
   }
 
   const pct=Math.round(((week-1)/8)*100);
@@ -418,14 +448,14 @@ function renderToday(state,today,pIdx,workoutDone){
   const tp=PLAN.schedule[pIdx];
   const el=document.getElementById('todayExercises');
   const btn=document.getElementById('completeDayBtn');
-  document.getElementById('todayDayLabel').textContent=`${tp.day} — ${tp.label}`;
+  document.getElementById('todayDayLabel').textContent=`${tp.day} â ${tp.label}`;
 
   if(!tp.isWorkout){
-    el.innerHTML=`<div class="rest-card"><div class="rest-icon">${tp.isActive?'🚶':'😴'}</div><div class="rest-msg">${tp.isActive?'LIGHT WALK / STRETCH TODAY':'FULL REST — LET YOUR MUSCLES REPAIR'}</div></div>`;
+    el.innerHTML<`<div class="rest-card"><div class="rest-icon">${tp.isActive?'ð¶':'ð´'}</div><div class="rest-msg">${tp.isActive?'LIGHT WALK / STRETCH TODAY':'FULL REST â LET YOUR MUSCLES REPAIR'}</div></div>`;
     btn.style.display='none';return;
   }
   if(workoutDone){
-    el.innerHTML=`<div class="rest-card" style="background:#f0fdf4;border:2px solid #22c55e"><div class="rest-icon">💪</div><div class="rest-msg" style="color:#22c55e">WORKOUT COMPLETE<br><span style="color:#9ca3af;font-size:10px;display:block;margin-top:8px">COME BACK NEXT WORKOUT DAY</span></div></div>`;
+    el.innerHTML=`<div class="rest-card" style="background:#f0fdf4;border:2px solid #22c55e"><div class="rest-icon">ðª</div><div class="rest-msg" style="color:#22c55e">WORKOUT COMPLETE<br><span style="color:#9ca3af;font-size:10px;display:block;margin-top:8px">COME BACK NEXT WORKOUT DAY</span></div></div>`;
     btn.style.display='none';return;
   }
 
@@ -445,11 +475,11 @@ function renderToday(state,today,pIdx,workoutDone){
     ${tp.exercises.map((ex,i)=>`
       <div class="ex-item ${checked[i]?'checked':''}" id="exi${i}">
         <div class="ex-main" onclick="toggleCheck(${i})">
-          <div class="ex-check ${checked[i]?'done':''}">${checked[i]?'✓':''}</div>
+          <div class="ex-check ${checked[i]?'done':''}">${checked[i]?'â':''}</div>
           <div>
             <div class="ex-name">${ex.name}</div>
             <div class="ex-note">${ex.note}</div>
-            <div class="ex-demo-toggle" onclick="event.stopPropagation();toggleDemo(${i})">▼ see demo</div>
+            <div class="ex-demo-toggle" onclick="event.stopPropagation();toggleDemo(${i})">â¼ see demo</div>
           </div>
           <div class="ex-reps">
             <div class="ex-reps-num">${ex.reps}</div>
@@ -458,7 +488,7 @@ function renderToday(state,today,pIdx,workoutDone){
         </div>
         <div class="ex-demo" id="exd${i}">
           <img class="ex-demo-img" src="${ex.img}" alt="${ex.name}" onerror="this.style.display='none'" />
-          <a class="ex-demo-link" href="${ex.demo}" target="_blank">▶ Watch Tutorial</a>
+          <a class="ex-demo-link" href="${ex.demo}" target="_blank">â¶ Watch Tutorial</a>
         </div>
       </div>
     `).join('')}
@@ -473,7 +503,7 @@ function renderWeek(state){
     if(isDone)cls+=' workout-done';
     if(!d.isWorkout)cls+=' rest-day';
     if(isToday)cls+=' today';
-    const icon=isDone?'✅':(!d.isWorkout?(d.isActive?'🚶':'😴'):(isToday?'⚡':'○'));
+    const icon=isDone?'â':(!d.isWorkout?(d.isActive?'ð¶':'ð´'):(isToday?'â¡':'â'));
     return`<div class="${cls}"><div class="week-day-label">${d.day}</div><div class="week-day-status">${icon}</div></div>`;
   }).join('');
   const wDays=PLAN.schedule.filter(d=>d.isWorkout).length;
@@ -486,7 +516,7 @@ function renderWeek(state){
     const dd=new Date(date+'T00:00:00');
     const ds=dd.toLocaleDateString('en-US',{month:'short',day:'numeric'});
     return`<div class="week-sched-item ${isToday?'today-item':''} ${isDone?'done-item':''}">
-      <div><div style="font-size:12px;font-weight:800;color:${isDone?'#22c55e':isToday?'#f97316':'#374151'}">${d.day} ${isDone?'✅':''}</div><div style="font-size:10px;color:#9ca3af;letter-spacing:1px;text-transform:uppercase">${d.label}</div></div>
+      <div><div style="font-size:12px;font-weight:800;color:${isDone?'#22c55e':isToday?'#f97316':'#374151'}">${d.day} ${isDone?'â':''}</div><div style="font-size:10px;color:#9ca3af;letter-spacing:1px;text-transform:uppercase">${d.label}</div></div>
       <div style="font-size:11px;color:#d1d5db;font-weight:600">${ds}</div>
     </div>`;
   }).join('');
@@ -523,9 +553,9 @@ function renderStats(state,phaseIdx){
     <div class="workout-day-card">
       <div class="workout-day-header" onclick="togglePlanDay('pd${i}','pdarr${i}')">
         <div><div class="workout-day-tag">${d.day}</div><div class="workout-day-title">${d.label}</div></div>
-        <span class="workout-day-arrow" id="pdarr${i}">›</span>
+        <span class="workout-day-arrow" id="pdarr${i}">âº</span>
       </div>
-      <div class="workout-day-exs" id="pd${i}">${d.exercises.map(ex=>`<div class="ex-row"><span class="ex-row-label">${ex.name}</span><span class="ex-row-val">${ex.sets}×${ex.reps}</span></div>`).join('')}</div>
+      <div class="workout-day-exs" id="pd${i}">${d.exercises.map(ex=>`<div class="ex-row"><span class="ex-row-label">${ex.name}</span><span class="ex-row-val">${ex.sets}Ã${ex.reps}</span></div>`).join('')}</div>
     </div>`).join('');
   document.getElementById('planTips').innerHTML=PLAN.tips.map(t=>`
     <div class="tip-item"><span class="tip-icon">${t.icon}</span><div><div class="tip-title">${t.title}</div><div class="tip-body">${t.body}</div></div></div>`).join('');
@@ -535,7 +565,7 @@ function renderStats(state,phaseIdx){
     :allDates.map(date=>{
       const d=new Date(date+'T00:00:00');
       const ds=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-      return`<div class="log-item"><div><div class="log-date">${ds}</div><div class="log-type">${[logs[date]&&'💪 Workout',mLogs[date]&&'🌅 9AM'].filter(Boolean).join(' · ')}</div></div><div style="font-size:18px">${logs[date]?'✅':''}</div></div>`;
+      return`<div class="log-item"><div><div class="log-date">${ds}</div><div class="log-type">${[logs[date]&&'ðª Workout',mLogs[date]&&'ð 9AM'].filter(Boolean).join(' Â· ')}</div></div><div style="font-size:18px">${logs[date]?'â':''}</div></div>`;
     }).join('');
 }
 
@@ -563,7 +593,7 @@ function logMorning(){
   if((state.morningLogs||{})[today])return;
   if(!state.morningLogs)state.morningLogs={};
   state.morningLogs[today]=new Date().toISOString();
-  setState(state);showToast('🌅 9AM LOGGED! GREAT START!');render();
+  setState(state);showToast('ð 9AM LOGGED! GREAT START!');render();
 }
 
 function toggleCheck(idx){
@@ -589,10 +619,10 @@ function completeDay(){
   if(streak>(state.bestStreak||0))state.bestStreak=streak;
   setState(state);
   const sn=getWorkoutStreak(state);
-  let emoji='💪',title='DAY DONE.',sub='ABS ARE GROWING.\nREST. EAT. SLEEP.';
-  if(sn>=21){emoji='🏆';title=`${sn} DAYS.`;sub="YOU'RE UNSTOPPABLE.\nFEW PEOPLE MAKE IT HERE.";}
-  else if(sn>=14){emoji='🔥';title=`${sn} DAYS STRAIGHT.`;sub='TWO WEEKS STRONG.\nYOUR BODY IS CHANGING.';}
-  else if(sn>=7){emoji='⚡';title='ONE WEEK DONE.';sub='YOU MADE IT 7 SESSIONS.\nDO SEVEN MORE.';}
+  let emoji='ðª',title='DAY DONE.',sub='ABS ARE GROWING.\nREST. EAT. SLEEP.';
+  if(sn>=21){emoji='ð';title=`${sn} DAYS.`;sub="YOU'RE UNSTOPPABLE.\nFEW PEOPLE MAKE IT HERE.";}
+  else if(sn>=14){emoji='ð¥';title=`${sn} DAYS STRAIGHT.`;sub='TWO WEEKS STRONG.\nYOUR BODY IS CHANGING.';}
+  else if(sn>=7){emoji='â¡';title='ONE WEEK DONE.';sub='YOU MADE IT 7 SESSIONS.\nDO SEVEN MORE.';}
   document.getElementById('overlayEmoji').textContent=emoji;
   document.getElementById('overlayTitle').textContent=title;
   document.getElementById('overlaySub').textContent=sub;
